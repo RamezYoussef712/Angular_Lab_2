@@ -1,0 +1,203 @@
+<div class="container d-flex flex-column col-9">
+    <div class="text-center my-3">
+        <h1 class="fw-bold text-decoration-underline">Students</h1>
+    </div>
+    <div class="text-center my-2">
+        <button class="btn btn-primary btn-lg col-2" data-bs-toggle="modal" data-bs-target="#addStudModal">
+            Add
+        </button>
+    </div>
+    <div class="modal fade" id="addStudModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title fw-bold" id="exampleModalLabel">
+                        Add Student
+                    </h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label for="id" class="form-label">ID:</label>
+                            <input [(ngModel)]="newStudent.id"  name="id" required type="text" class="form-control" id="ID" placeholder="" />
+                        </div>
+                        <div class="mb-3">
+                            <label for="studtName" class="form-label">Student Name</label>
+                            <input [(ngModel)]="newStudent.name" name="studName" required type="text" class="form-control" id="studentName" placeholder="" />
+                        </div>
+                        <div class="mb-3">
+                            <label for="age" class="form-label">Age</label>
+                            <input [(ngModel)]="newStudent.age" name="age" required type="text" class="form-control" id="age" placeholder="" />
+                        </div>
+                        <div class="mb-3">
+                            <label for="dept_no" class="form-label">Department No.</label>
+                            <select [(ngModel)]="newStudent.dept_no" name="dept_no" required id="dept_no" class="form-select">
+                                <option selected>Choose Department No.</option>
+                                <option value="201">201 - Open Source</option>
+                                <option value="202">202 - Mobile App</option>
+                                <option value="203">203 - System Admin</option>
+                                <option value="204">204 - Artificial Intelligence</option>
+                            </select>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                Cancel
+                            </button>
+                            <button (click)="Add()" type="button" class="btn btn-primary" data-bs-dismiss="modal">Add</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col my-4">
+        <table class="table table-bordered border-light table-hover rounded-3 text-center">
+            <thead class="table-dark">
+                <tr>
+                    <th>#</th>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Age</th>
+                    <th>Department No.</th>
+                    <th class="col-5">Action</th>
+                </tr>
+            </thead>
+            <tbody class="text-center">
+                <tr *ngFor="let item of students; let serial = index" [ngSwitch]="item.dept_no">
+                    <td>{{ serial + 1 }}</td>
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.age }}</td>
+                    <td *ngSwitchCase="201" class="table-primary">{{ item.dept_no }}</td>
+                    <td *ngSwitchCase="202" class="table-danger">{{ item.dept_no }}</td>
+                    <td *ngSwitchCase="203" class="table-success">{{ item.dept_no }}</td>
+                    <td *ngSwitchCase="204" class="table-warning">{{ item.dept_no }}</td>
+                    <td>
+                        <div>
+                            <button (click)="Show(item.id)" type="button" class="btn btn-secondary mx-3 col-2" data-bs-toggle="modal"
+                                data-bs-target="#showStudModal">
+                                Show
+                            </button>
+                            <button (click)="Edit(item.id)" type="button" class="btn btn-info mx-3 col-2" data-bs-toggle="modal"
+                                data-bs-target="#editStudModal">
+                                Edit
+                            </button>
+                            <button (click)="Edit(item.id)" type="button" class="btn btn-danger mx-3 col-2" data-bs-toggle="modal"
+                                data-bs-target="#deleteStudModal">
+                                Delete
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="modal fade" id="showStudModal" tabindex="-1" aria-labelledby="showModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title fw-bold" id="showModalLabel">
+                            Show Student Details
+                        </h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="mb-3">
+                                <label for="ID" class="form-label fs-5 fw-bold">ID:</label>
+                                <input [value]="shownStud.id" type="text" readonly class="form-control-plaintext" id="ID" placeholder="" />
+                            </div>
+                            <div class="mb-3">
+                                <label for="studenttName" class="form-label fs-5 fw-bold">Student Name</label>
+                                <input [value]="shownStud.name" type="text" readonly class="form-control-plaintext" id="studentName" placeholder="" />
+                            </div>
+                            <div class="mb-3">
+                                <label for="age" class="form-label fs-5 fw-bold">Age</label>
+                                <input [value]="shownStud.age" type="text" readonly class="form-control-plaintext" id="age" placeholder="" />
+                            </div>
+                            <div class="mb-3">
+                                <label for="deptNo" class="form-label fs-5 fw-bold">Department No.</label>
+                                <input [value]="shownStud.dept_no" type="text" readonly class="form-control-plaintext" id="deptNo" placeholder="" />
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                            Close
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="editStudModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title fw-bold" id="editModalLabel">
+                            Edit Student Details
+                        </h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="mb-3">
+                                <label for="ID" class="form-label">ID:</label>
+                                <input [value]="editableStud.id" [(ngModel)]="editableStud.id" name="ID" type="text" class="form-control" id="ID" placeholder="" />
+                            </div>
+                            <div class="mb-3">
+                                <label for="studentName" class="form-label">Student Name</label>
+                                <input [value]="editableStud.name" [(ngModel)]="editableStud.name" name="studentName" type="text" class="form-control" id="studentName" placeholder="" />
+                            </div>
+                            <div class="mb-3">
+                                <label for="age" class="form-label">Age</label>
+                                <input [value]="editableStud.name" [(ngModel)]="editableStud.age" name="age" type="text" class="form-control" id="age" placeholder="" />
+                            </div>
+                            <div class="mb-3">
+                                <label for="dept_no" class="form-label">Department No.</label>
+                                <select [(ngModel)]="editableStud.dept_no" name="dept_no" id="dept_no" class="form-select">
+                                    <option [value]="editableStud.dept_no" selected>{{ editableStud.dept_no }}</option>
+                                    <option value="201">201</option>
+                                    <option value="202">202</option>
+                                    <option value="203">203</option>
+                                    <option value="204">204</option>
+                                </select>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                            Cancel
+                        </button>
+                        <button (click)="Save(editableStud)" type="button" class="btn btn-primary" data-bs-dismiss="modal">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="deleteStudModal" tabindex="-1" aria-labelledby="modal-Delete-Label" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modal-delete-Label">
+                            Deleting Student no.
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body text-center">
+                        Are you sure you want to delete this student?
+                    </div>
+                    <div class="modal-footer d-flex justify-content-center">
+                        <form method="POST" action="">
+                            <button (click)="Delete(editableStud)" type="submit" class="btn btn-danger" data-bs-dismiss="modal">Yes</button>
+                        </form>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                            No
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
